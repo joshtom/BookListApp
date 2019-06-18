@@ -10,20 +10,7 @@
  //UI Class : Handle UI tasks
     class UI{
         static displayBooks() {
-            const StoredBooks = [
-                {
-                    title: 'Book 1',
-                    author: 'Jane Doe',
-                    isbn: '3454545'
-                },
-                {
-                    title: 'Book Two',
-                    author: 'John Doe',
-                    isbn: '45554'
-                }
-            ];
-
-            const books = StoredBooks;
+            const books = Store.getBooks();
             books.forEach((book) => UI.addBookToList(book));
         }
         static addBookToList(book){
@@ -68,13 +55,29 @@
  //Store Class: Handle storage
         class Store {
             static getBooks() {
-
+                let books;
+                if(localStorage.getItem('books') === null) {
+                    books = [];
+                } else {
+                    books = JSON.parse(localStorage.getItem('books'));
+                }
+                return books;
             }
             static addBook(book){
-
+                const books = Store.getBooks();
+                books.push(book);
+                localStorage.setItem('books', JSON.stringify(books));
             }
-            static removeBook(){
-                
+            static removeBook(isbn){
+                const books = Store.getBooks();
+
+                books.forEach((book, index) => {
+                    if(book.isbn === isbn) {
+                        books.splice(index, 1);
+                    }
+                });
+                localStorage.setItem('books', JSON.stringify(books));
+
             }
         }
  //Event: Display Books
@@ -99,6 +102,8 @@
         
         UI.addBookToList(book);
         
+        // Add book to store - LocalStorage
+        Store.addBook(book);
         // Show success alert if a new book has been added
         UI.showAlert('Book added successfully', 'success');
         // Clear Field on submit
@@ -110,7 +115,11 @@
     })
  //Event: Remove a Book
     document.querySelector('#book-list').addEventListener('click', (event) => {
+        // Remove Book from UI
         UI.deleteBook(event.target);
+
+        // Remove Book from the store
+        Store.removeBook(event.target.parentElement.previousElementSibling.textContent);
 
          // Show success alert if a new book has been deleter
          UI.showAlert('Book Removed successfully', 'success');
