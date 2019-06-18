@@ -19,9 +19,9 @@
             const row = document.createElement('tr');
 
             row.innerHTML = `
-            <td>${book.title} </td>
-            <td>${book.author} </td>
-            <td>${book.isbn} </td>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.isbn}</td>
             <td><a href="#" class="btn btn-danger btn-sm delete" >X</a></td>
             `;
 
@@ -30,7 +30,7 @@
         }
         static deleteBook(el) {
             if(el.classList.contains('delete')) {
-                el.parentElement.parentElement.remove()
+                el.parentElement.parentElement.remove();
             }
         }
 
@@ -114,12 +114,12 @@
 
     })
  //Event: Remove a Book
-    document.querySelector('#book-list').addEventListener('click', (event) => {
+    document.querySelector('#book-list').addEventListener('click', (e) => {
         // Remove Book from UI
-        UI.deleteBook(event.target);
+        UI.deleteBook(e.target);
 
         // Remove Book from the store
-        Store.removeBook(event.target.parentElement.previousElementSibling.textContent);
+        Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
 
          // Show success alert if a new book has been deleter
          UI.showAlert('Book Removed successfully', 'success');
