@@ -88,7 +88,9 @@
         const book = new Book(title, author, isbn);
         
         UI.addBookToList(book);
-
+        
+        // Show success alert if a new book has been added
+        UI.showAlert('Book added successfully', 'success');
         // Clear Field on submit
         UI.clearFields();
         }
