@@ -41,7 +41,21 @@
             //Appending the row to the list
             list.appendChild(row);
         }
+        static deleteBook(el) {
+            if(el.classList.contains('delete')) {
+                el.parentElement.parentElement.remove()
+            }
+        }
 
+        
+        static showAlert(message, classname){
+            const div = document.createElement('div')
+            div.className = `alert alert-${classname}`;
+            div.appendChild(document.createTextNode(message))
+            const container = document.querySelector('.container')
+            const form = document.querySelector('#book-form');
+            container.insertBefore(div,form);
+        }
          static clearFields(){
             document.querySelector('#title').value = "";
             document.querySelector('#author').value = "";
@@ -62,18 +76,24 @@
         const author = document.querySelector('#author').value;
         const isbn = document.querySelector('#isbn').value;
 
-        // Instantiate the Book
+        // Validate
+        if(title === "" || author ==="" ||  isbn ===""){
+            UI.showAlert('Please fill in all the fields', 'danger');
+        }
+        else{
+            // Instantiate the Book
         const book = new Book(title, author, isbn);
         
         UI.addBookToList(book);
 
         // Clear Field on submit
         UI.clearFields();
+        }
 
         
 
     })
  //Event: Remove a Book
     document.querySelector('#book-list').addEventListener('click', (event) => {
-        console.log(event.target);
+        UI.deleteBook(event.target);
     })
