@@ -66,7 +66,17 @@
         }
     }
  //Store Class: Handle storage
+        class Store {
+            static getBooks() {
 
+            }
+            static addBook(book){
+
+            }
+            static removeBook(){
+                
+            }
+        }
  //Event: Display Books
     document.addEventListener('DOMContentLoaded', UI.displayBooks);
  //Event: Add a Book
@@ -101,4 +111,7 @@
  //Event: Remove a Book
     document.querySelector('#book-list').addEventListener('click', (event) => {
         UI.deleteBook(event.target);
+
+         // Show success alert if a new book has been deleter
+         UI.showAlert('Book Removed successfully', 'success');
     })
